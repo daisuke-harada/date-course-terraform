@@ -14,8 +14,8 @@ resource "aws_route" "public" {
   destination_cidr_block = "0.0.0.0/0"
 }
 
+# パブリックサブネットとのルートアソシエーション を作成
 resource "aws_route_table_association" "public" {
-  count = 2
-  subnet_id = element(aws_subnet.public.*.id, count.index)
+  subnet_id = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
