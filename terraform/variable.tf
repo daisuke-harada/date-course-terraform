@@ -1,14 +1,19 @@
 variable "vpc_cidr" {
-  type = string
+  type    = string
   default = "10.0.0.0/16"
 }
 
 variable "app_name" {
-  type = string
+  type    = string
   default = "date_course"
 }
 
 variable "availability_zones" {
-  type = list(string)
+  type    = list(string)
   default = ["ap-northeast-1a", "ap-northeast-1c", "ap-northeast-1d"]
+}
+
+variable "az_count" {
+  type    = string
+  default = "2"
 }
