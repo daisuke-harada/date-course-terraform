@@ -29,12 +29,12 @@ resource "aws_route_table" "private" {
 resource "aws_route" "private" {
   count                  = 2
   route_table_id         = element(aws_route_table.private.*.id, count.index)
-  nat_gateway_id         = element(aws_nat_gateway.nat_gateway.*.id, count.index)
+  nat_gateway_id         = element(aws_nat_gateway.main.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
 }
 
-esource "aws_route_table_association" "private" {
+resource "aws_route_table_association" "private" {
   count          = var.az_count
-  subnet_id      = element(aws_subnet.private.*.id, count.index)
-  route_table_id = element(aws_subnet.private.*.id, count.index)
+  subnet_id      = element(aws_subnet.application.*.id, count.index)
+  route_table_id = element(aws_route_table.private.*.id, count.index)
 }

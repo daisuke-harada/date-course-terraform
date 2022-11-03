@@ -5,7 +5,7 @@ variable "vpc_cidr" {
 
 variable "app_name" {
   type    = string
-  default = "date_course"
+  default = "datecourse"
 }
 
 variable "availability_zones" {
@@ -16,4 +16,9 @@ variable "availability_zones" {
 variable "az_count" {
   type    = string
   default = "2"
+}
+
+variable "base_domain" {
+  type    = string
+  default = "datecourses.com"
 }
