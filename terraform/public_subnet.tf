@@ -1,10 +1,11 @@
 resource "aws_subnet" "public" {
+  count             = var.az_count
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.20.0/24"
+  availability_zone = var.availability_zones[count.index]
+  cidr_block        = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index)
   map_public_ip_on_launch = true
-  availability_zone = "ap-northeast-1a"
 
   tags = {
-    Name ="${var.app_name}-public-subnet"
+    Name ="${var.app_name}-public-subnet-${count.index}"
   }
 }
