@@ -21,7 +21,7 @@ resource "aws_security_group_rule" "ingress_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "egress" {
+resource "aws_security_group_rule" "egress_lb" {
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -30,26 +30,48 @@ resource "aws_security_group_rule" "egress" {
   security_group_id = aws_security_group.lb.id
 }
 
-# module "http_sg" {
-#   source      = "./security_group"
-#   name        = "${var.app_name}-lb-http-sg"
-#   vpc_id      = aws_vpc.main.id
-#   port        = 80
-#   cidr_blocks = ["0.0.0.0/0"]
-# }
+resource "aws_security_group" "frontend" {
+  name   = "${var.app_name}-frontend-sg"
+  vpc_id = aws_vpc.main.id
+}
 
-# module "https_sg" {
-#   source      = "./security_group"
-#   name        = "${var.app_name}-lb-https-sg"
-#   vpc_id      = aws_vpc.main.id
-#   port        = 443
-#   cidr_blocks = ["0.0.0.0/0"]
-# }
+resource "aws_security_group_rule" "ingress_frontend_from_lb" {
+  type              = "ingress"
+  from_port         = 3000
+  to_port           = 3000
+  protocol          = "tcp"
+  source_security_group_id = aws_security_group.lb.id
+  security_group_id = aws_security_group.frontend.id
+}
 
-# module "http_redirect_sg" {
-#   source      = "./security_group"
-#   name        = "${var.app_name}-lb-http-redirect-sg"
-#   vpc_id      = aws_vpc.main.id
-#   port        = 80
-#   cidr_blocks = ["0.0.0.0/0"]
-# }
+resource "aws_security_group_rule" "egress_frontend" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.frontend.id
+}
+
+resource "aws_security_group" "backend" {
+  name   = "${var.app_name}-backend-sg"
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_security_group_rule" "ingress_backend_from_frontend" {
+  type              = "ingress"
+  from_port         = 7777
+  to_port           = 7777
+  protocol          = "tcp"
+  source_security_group_id = aws_security_group.frontend.id
+  security_group_id = aws_security_group.backend.id
+}
+
+resource "aws_security_group_rule" "egress_backend" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.backend.id
+}
