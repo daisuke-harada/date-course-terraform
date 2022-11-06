@@ -9,10 +9,10 @@ resource "aws_iam_role" "default" {
 
 data "aws_iam_policy_document" "assume_role" {
   statement {
-    actone = ["sts:AssumeRole"]
+    actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = [var.identifier]
+      identifiers = [var.identifier] # このIAMロールはidentifierのみに関連づけできる。
     }
   }
 }

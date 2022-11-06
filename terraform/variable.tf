@@ -8,6 +8,11 @@ variable "app_name" {
   default = "datecourse"
 }
 
+variable "region" {
+  type = string
+  default = "ap-northeast-1"
+}
+
 variable "availability_zones" {
   type    = list(string)
   default = ["ap-northeast-1a", "ap-northeast-1c", "ap-northeast-1d"]
