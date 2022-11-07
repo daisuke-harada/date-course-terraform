@@ -9,7 +9,7 @@ variable "app_name" {
 }
 
 variable "region" {
-  type = string
+  type    = string
   default = "ap-northeast-1"
 }
 
@@ -26,4 +26,15 @@ variable "az_count" {
 variable "base_domain" {
   type    = string
   default = "datecourses.com"
+}
+
+variable "secrets" {
+  type = object({
+    db_name          = string
+    rails_master_key = string
+  })
+  default = {
+    db_name          = null
+    rails_master_key = null
+  }
 }

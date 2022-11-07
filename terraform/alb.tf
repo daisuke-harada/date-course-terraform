@@ -21,10 +21,10 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.main.arn
-  port = "443"
-  protocol = "HTTPS"
-  certificate_arn = aws_acm_certificate.cert.arn
-  ssl_policy = "ELBSecurityPolicy-2016-08"
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = aws_acm_certificate.cert.arn
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
   default_action {
     target_group_arn = aws_lb_target_group.app.arn
     type             = "forward"
@@ -35,10 +35,10 @@ resource "aws_lb_listener_rule" "redirect_http_to_https" {
   listener_arn = aws_lb_listener.http.arn
 
   action {
-    type             = "redirect"
+    type = "redirect"
     redirect {
-      port = "443"
-      protocol = "HTTPS"
+      port        = "443"
+      protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
   }
@@ -51,11 +51,11 @@ resource "aws_lb_listener_rule" "redirect_http_to_https" {
 }
 
 resource "aws_lb_target_group" "app" {
-  name     = "${var.app_name}-lb-target-group"
+  name        = "${var.app_name}-lb-target-group"
   target_type = "ip"
-  vpc_id   = aws_vpc.main.id
-  port     = 80
-  protocol = "HTTP"
+  vpc_id      = aws_vpc.main.id
+  port        = 80
+  protocol    = "HTTP"
 
   depends_on = [aws_lb.main]
 }
