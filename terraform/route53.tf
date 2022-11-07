@@ -23,10 +23,10 @@ resource "aws_route53_record" "cert_validation" {
   }
 
   allow_overwrite = true
-  name = each.value.name
-  records = [each.value.record]
-  type = each.value.type
-  ttl = "300"
+  name            = each.value.name
+  records         = [each.value.record]
+  type            = each.value.type
+  ttl             = "300"
 
   # レコードを追加するドメインのホストゾーンIDを指定
   zone_id = data.aws_route53_zone.datecourse.zone_id
