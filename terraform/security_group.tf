@@ -53,29 +53,6 @@ resource "aws_security_group_rule" "egress_web" {
   security_group_id = aws_security_group.web.id
 }
 
-# resource "aws_security_group" "backend" {
-#   name   = "${var.app_name}-backend-sg"
-#   vpc_id = aws_vpc.main.id
-# }
-
-# resource "aws_security_group_rule" "ingress_backend_from_app" {
-#   type                     = "ingress"
-#   from_port                = 7777
-#   to_port                  = 7777
-#   protocol                 = "tcp"
-#   source_security_group_id = aws_security_group.app.id
-#   security_group_id        = aws_security_group.backend.id
-# }
-
-# resource "aws_security_group_rule" "egress_backend" {
-#   type              = "egress"
-#   from_port         = 0
-#   to_port           = 0
-#   protocol          = "-1"
-#   cidr_blocks       = ["0.0.0.0/0"]
-#   security_group_id = aws_security_group.backend.id
-# }
-
 # mysqlのrdsのセキュリティグループ
 resource "aws_security_group" "mysql" {
   name   = "${var.app_name}-mysql-sg"

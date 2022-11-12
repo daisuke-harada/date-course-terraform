@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "main" {
-  name = "${var.app_name}-cluster"
+  name = "${var.app_name}-ecs-cluster"
 }
 
 resource "aws_ecs_task_definition" "web" {
@@ -73,7 +73,7 @@ resource "aws_ecs_service" "web" {
   name                              = "${var.app_name}-web"
   cluster                           = aws_ecs_cluster.main.arn
   task_definition                   = aws_ecs_task_definition.web.arn
-  desired_count                     = 1
+  desired_count                     = 2 # タスクは常に2つ実行
   launch_type                       = "FARGATE"
   platform_version                  = "1.4.0"
   health_check_grace_period_seconds = 60
