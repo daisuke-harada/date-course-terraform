@@ -5,7 +5,7 @@ variable "vpc_cidr" {
 
 variable "app_name" {
   type    = string
-  default = "datecourse"
+  default = "datecourses"
 }
 
 variable "region" {
@@ -30,11 +30,18 @@ variable "base_domain" {
 
 variable "secrets" {
   type = object({
-    db_name          = string
-    rails_master_key = string
+    db_name                      = string
+    rails_master_key             = string
+    db_username                  = string
+    db_password                  = string
+    react_app_google_map_api_key = string
   })
   default = {
-    db_name          = null
-    rails_master_key = null
+    db_name                      = null
+    rails_master_key             = null
+    db_username                  = null
+    db_password                  = null
+    react_app_google_map_api_key = null
+
   }
 }
