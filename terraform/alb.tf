@@ -29,6 +29,10 @@ resource "aws_lb_listener" "https" {
     target_group_arn = aws_lb_target_group.app.arn
     type             = "forward"
   }
+
+  depends_on = [
+    aws_acm_certificate_validation.cert
+  ]
 }
 
 resource "aws_lb_listener_rule" "redirect_http_to_https" {
