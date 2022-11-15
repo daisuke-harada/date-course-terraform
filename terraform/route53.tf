@@ -21,13 +21,24 @@ resource "aws_route53_record" "cert_validation" {
   zone_id = data.aws_route53_zone.datecourse.zone_id
 }
 
-resource "aws_route53_record" "alb" {
+resource "aws_route53_record" "frontend" {
   zone_id = data.aws_route53_zone.datecourse.zone_id
   name    = "www.${var.base_domain}"
   type    = "A"
   alias {
-    name                   = aws_lb.main.dns_name
-    zone_id                = aws_lb.main.zone_id
+    name                   = aws_lb.frontend.dns_name
+    zone_id                = aws_lb.frontend.zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "backend" {
+  zone_id = data.aws_route53_zone.datecourse.zone_id
+  name    = "backend.${var.base_domain}"
+  type    = "A"
+  alias {
+    name                   = aws_lb.backend.dns_name
+    zone_id                = aws_lb.backend.zone_id
     evaluate_target_health = true
   }
 }
