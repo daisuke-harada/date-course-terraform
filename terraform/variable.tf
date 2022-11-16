@@ -35,6 +35,7 @@ variable "secrets" {
     db_username                  = string
     db_password                  = string
     react_app_google_map_api_key = string
+    s3_name                      = string
   })
   default = {
     db_name                      = null
@@ -42,6 +43,6 @@ variable "secrets" {
     db_username                  = null
     db_password                  = null
     react_app_google_map_api_key = null
-
+    s3_name                      = null
   }
 }

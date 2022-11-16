@@ -24,8 +24,8 @@ resource "aws_ecs_task_definition" "frontend" {
 
       environment = [
         {
-          "value"  = "production"
-          "name" = "REACT_APP_ENVIRONMENT"
+          "value" = "production"
+          "name"  = "REACT_APP_ENVIRONMENT"
         }
       ]
 
