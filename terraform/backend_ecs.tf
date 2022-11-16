@@ -29,7 +29,24 @@ resource "aws_ecs_task_definition" "backend" {
         {
           "valueFrom" = aws_ssm_parameter.rails_master_key.name
           "name"      = "RAILS_MASTER_KEY"
+        },
+        {
+          "valueFrom" = aws_ssm_parameter.db_username.name
+          "name"      = "MYSQL_USER"
+        },
+        {
+          "valueFrom" = aws_ssm_parameter.db_password.name
+          "name"      = "MYSQL_PASSWORD"
+        },
+        {
+          "valueFrom" = aws_ssm_parameter.db_host.name
+          "name"      = "MYSQL_HOST"
+        },
+        {
+          "valueFrom" = aws_ssm_parameter.s3.name
+          "name"      = "FOG_DIRECTORY"
         }
+
       ]
 
       logConfiguration = {
