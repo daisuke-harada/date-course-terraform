@@ -90,21 +90,6 @@ resource "aws_lb_listener" "backend_https" {
   ]
 }
 
-resource "aws_lb_listener_rule" "backend_redirect_backend_to_https" {
-  listener_arn = aws_lb_listener.backend_https.arn
-
-  action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.backend.arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["www.${var.base_domain}/*"]
-    }
-  }
-}
-
 resource "aws_lb_target_group" "backend" {
   name        = "${var.app_name}-backend-group"
   target_type = "ip"
