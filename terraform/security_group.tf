@@ -58,14 +58,23 @@ resource "aws_security_group" "backend" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "ingress_backend_from_frontend" {
-  type                     = "ingress"
-  from_port                = 7777
-  to_port                  = 7777
-  protocol                 = "tcp"
-  source_security_group_id = aws_security_group.frontend.id
-  security_group_id        = aws_security_group.backend.id
+# resource "aws_security_group_rule" "ingress_backend_from_frontend" {
+#   type                     = "ingress"
+#   from_port                = 7777
+#   to_port                  = 7777
+#   protocol                 = "tcp"
+#   source_security_group_id = aws_security_group.frontend.id
+#   security_group_id        = aws_security_group.backend.id
+# }
+resource "aws_security_group_rule" "ingress_backend" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.backend.id
 }
+
 
 resource "aws_security_group_rule" "egress_backend" {
   type              = "egress"

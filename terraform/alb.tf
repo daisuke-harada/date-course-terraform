@@ -74,17 +74,6 @@ resource "aws_lb" "backend" {
   security_groups            = [aws_security_group.lb.id]
 }
 
-resource "aws_lb_listener" "backend_http" {
-  load_balancer_arn = aws_lb.backend.arn
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    target_group_arn = aws_lb_target_group.backend.arn
-    type             = "forward"
-  }
-}
-
 resource "aws_lb_listener" "backend_https" {
   load_balancer_arn = aws_lb.backend.arn
   port              = "443"
@@ -101,21 +90,17 @@ resource "aws_lb_listener" "backend_https" {
   ]
 }
 
-resource "aws_lb_listener_rule" "backend_redirect_http_to_https" {
-  listener_arn = aws_lb_listener.backend_http.arn
+resource "aws_lb_listener_rule" "backend_redirect_backend_to_https" {
+  listener_arn = aws_lb_listener.backend_https.arn
 
   action {
-    type = "redirect"
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
+    type = "forward"
+    target_group_arn = aws_lb_target_group.backend.arn
   }
 
   condition {
     path_pattern {
-      values = ["*"]
+      values = ["www.${var.base_domain}/*"]
     }
   }
 }
