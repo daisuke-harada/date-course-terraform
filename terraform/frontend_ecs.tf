@@ -24,8 +24,8 @@ resource "aws_ecs_task_definition" "frontend" {
 
       environment = [
         {
-          "value" = "production"
-          "name"  = "REACT_APP_ENVIRONMENT"
+          "value" = "${aws_route53_record.backend.name}/api/v1"
+          "name"  = "REACT_APP_BACKEND_DOMAIN_API"
         }
       ]
 

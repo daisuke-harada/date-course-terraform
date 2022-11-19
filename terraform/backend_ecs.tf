@@ -22,6 +22,10 @@ resource "aws_ecs_task_definition" "backend" {
         {
           "value" = "production"
           "name"  = "RAILS_ENV"
+        },
+        {
+          "value" = aws_route53_record.frontend.name
+          "name"  = "RAILS_ENV"
         }
       ]
 
