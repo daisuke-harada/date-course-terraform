@@ -17,8 +17,19 @@ data "aws_iam_policy_document" "ecs_task_execution" {
     ]
     resources = [
       aws_ssm_parameter.rails_master_key.arn,
-      aws_ssm_parameter.react_app_google_map_api_key.arn
+      aws_ssm_parameter.react_app_google_map_api_key.arn,
+      aws_ssm_parameter.db_username.arn,
+      aws_ssm_parameter.db_password.arn,
+      aws_ssm_parameter.db_host.arn,
+      aws_ssm_parameter.s3.arn
     ]
+  }
+
+  statement {
+    actions = [
+      "kms:Decrypt"
+    ]
+    resources = ["*"]
   }
 }
 

@@ -30,28 +30,61 @@ resource "aws_security_group_rule" "egress_lb" {
   security_group_id = aws_security_group.lb.id
 }
 
-resource "aws_security_group" "web" {
-  name   = "${var.app_name}-web-sg"
+resource "aws_security_group" "frontend" {
+  name   = "${var.app_name}-frontend-sg"
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "ingress_web_from_lb" {
+resource "aws_security_group_rule" "ingress_frontend_from_lb" {
   type                     = "ingress"
   from_port                = 3000
   to_port                  = 3000
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.lb.id
-  security_group_id        = aws_security_group.web.id
+  security_group_id        = aws_security_group.frontend.id
 }
 
-resource "aws_security_group_rule" "egress_web" {
+resource "aws_security_group_rule" "egress_frontend" {
   type              = "egress"
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.web.id
+  security_group_id = aws_security_group.frontend.id
 }
+
+resource "aws_security_group" "backend" {
+  name   = "${var.app_name}-backend-sg"
+  vpc_id = aws_vpc.main.id
+}
+
+# resource "aws_security_group_rule" "ingress_backend_from_frontend" {
+#   type                     = "ingress"
+#   from_port                = 7777
+#   to_port                  = 7777
+#   protocol                 = "tcp"
+#   source_security_group_id = aws_security_group.frontend.id
+#   security_group_id        = aws_security_group.backend.id
+# }
+resource "aws_security_group_rule" "ingress_backend" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.backend.id
+}
+
+
+resource "aws_security_group_rule" "egress_backend" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.backend.id
+}
+
 
 # mysqlのrdsのセキュリティグループ
 resource "aws_security_group" "mysql" {
@@ -59,12 +92,12 @@ resource "aws_security_group" "mysql" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "ingress_mysql_from_web" {
+resource "aws_security_group_rule" "ingress_mysql_from_backend" {
   type                     = "ingress"
   from_port                = 3306
   to_port                  = 3306
   protocol                 = "tcp"
-  source_security_group_id = aws_security_group.web.id
+  source_security_group_id = aws_security_group.backend.id
   security_group_id        = aws_security_group.mysql.id
 }
 

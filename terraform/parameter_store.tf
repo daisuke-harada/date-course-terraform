@@ -16,8 +16,20 @@ resource "aws_ssm_parameter" "db_password" {
   value = var.secrets["db_password"]
 }
 
+resource "aws_ssm_parameter" "db_host" {
+  name  = "/backend/db_host"
+  type  = "SecureString"
+  value = aws_db_instance.mysql.address
+}
+
 resource "aws_ssm_parameter" "react_app_google_map_api_key" {
   name  = "/frontend/react_app_google_map_api_key"
   type  = "SecureString"
   value = var.secrets["react_app_google_map_api_key"]
+}
+
+resource "aws_ssm_parameter" "s3" {
+  name  = "/backend/s3"
+  type  = "SecureString"
+  value = aws_s3_bucket.private.bucket
 }
