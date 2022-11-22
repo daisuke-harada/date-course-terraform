@@ -24,8 +24,8 @@ resource "aws_ecs_task_definition" "backend" {
           "name"  = "RAILS_ENV"
         },
         {
-          "value" = aws_route53_record.frontend.name
-          "name"  = "RAILS_ENV"
+          "value" = "https://${aws_route53_record.alb.name}"
+          "name"  = "FRONTEND_DOMAIN"
         }
       ]
 

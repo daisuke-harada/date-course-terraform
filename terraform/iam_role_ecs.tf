@@ -24,6 +24,13 @@ data "aws_iam_policy_document" "ecs_task_execution" {
       aws_ssm_parameter.s3.arn
     ]
   }
+
+  statement {
+    actions = [
+      "kms:Decrypt"
+    ]
+    resources = ["*"]
+  }
 }
 
 module "ecs_task_execution_role" {

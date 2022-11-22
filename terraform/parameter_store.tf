@@ -31,5 +31,5 @@ resource "aws_ssm_parameter" "react_app_google_map_api_key" {
 resource "aws_ssm_parameter" "s3" {
   name  = "/backend/s3"
   type  = "SecureString"
-  value = var.secrets["s3_name"]
+  value = aws_s3_bucket.private.bucket
 }
