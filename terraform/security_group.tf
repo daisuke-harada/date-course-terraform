@@ -1,3 +1,4 @@
+# albのセキュリティグループ
 resource "aws_security_group" "lb" {
   name   = "${var.app_name}-lb-sg"
   vpc_id = aws_vpc.main.id
@@ -30,6 +31,7 @@ resource "aws_security_group_rule" "egress_lb" {
   security_group_id = aws_security_group.lb.id
 }
 
+# frontendのセキュリティグループ
 resource "aws_security_group" "frontend" {
   name   = "${var.app_name}-frontend-sg"
   vpc_id = aws_vpc.main.id
@@ -53,19 +55,12 @@ resource "aws_security_group_rule" "egress_frontend" {
   security_group_id = aws_security_group.frontend.id
 }
 
+# backendのセキュリティグループ
 resource "aws_security_group" "backend" {
   name   = "${var.app_name}-backend-sg"
   vpc_id = aws_vpc.main.id
 }
 
-# resource "aws_security_group_rule" "ingress_backend_from_frontend" {
-#   type                     = "ingress"
-#   from_port                = 7777
-#   to_port                  = 7777
-#   protocol                 = "tcp"
-#   source_security_group_id = aws_security_group.frontend.id
-#   security_group_id        = aws_security_group.backend.id
-# }
 resource "aws_security_group_rule" "ingress_backend" {
   type              = "ingress"
   from_port         = 0
@@ -109,7 +104,3 @@ resource "aws_security_group_rule" "egress_mysql" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.mysql.id
 }
-
-
-
-

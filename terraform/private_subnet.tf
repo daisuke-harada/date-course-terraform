@@ -18,5 +18,4 @@ resource "aws_subnet" "database" {
   tags = {
     Name = "${var.app_name}-database-${count.index}"
   }
-
 }

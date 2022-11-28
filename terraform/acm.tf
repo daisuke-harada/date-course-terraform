@@ -1,9 +1,8 @@
 resource "aws_acm_certificate" "cert" {
-  domain_name = "*.${var.base_domain}"
-  # subject_alternative_names = []
-  validation_method = "DNS"
+  domain_name       = "*.${var.base_domain}"
+  validation_method = "DNS" # ドメインの所有権の検証方法
   lifecycle {
-    create_before_destroy = true
+    create_before_destroy = true # 再作成の際、新しいものを作成して、削除する。
   }
 }
 
